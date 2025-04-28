@@ -47,13 +47,13 @@ impl Config {
 
     /// reads config from env
     pub fn new() -> Self {
-        let host = Self::get_env("REVPROXY_HOST", "127.0.0.1".into());
-        let port: u16 = Self::get_env("REVPROXY_PORT", "1080".into())
+        let host = Self::get_env("REVPROXY_SOCKS5_HOST", "127.0.0.1".into());
+        let port: u16 = Self::get_env("REVPROXY_SOCKS5_PORT", "1080".into())
             .parse()
             .expect("PORT is not a number");
         let pub_addr =
             Self::get_env_opt("REVPROXY_PUB_ADDR").map(|x| x.parse().expect("Invalid IP address"));
-        let auth_method = Self::get_env("REVPROXY_AUTH_METHOD", "ldap".into());
+        let auth_method = Self::get_env("REVPROXY_AUTH_METHOD", "userpass".into());
         let auth = match auth_method.as_str() {
             "ldap" => Auth::Ldap,
             "no_auth" => Auth::NoAuth,
@@ -69,8 +69,8 @@ impl Config {
         let timeout: usize = Self::get_env("REVPROXY_TIMEOUT", "10".into())
             .parse()
             .expect("TIMEOUT must be an integer");
-        let enable_udp = Self::get_env_bool("REVPROXY_ENABLE_UDP").unwrap_or(false);
-        let resolve_dns = Self::get_env_bool("REVPROXY_RESOLVE_DNS").unwrap_or(true);
+        let enable_udp = Self::get_env_bool("REVPROXY_SOCKS5_ENABLE_UDP").unwrap_or(false);
+        let resolve_dns = Self::get_env_bool("REVPROXY_SOCKS5_RESOLVE_DNS").unwrap_or(true);
 
         Self {
             addr: format!("{host}:{port}"),
