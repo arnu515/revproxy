@@ -1,4 +1,4 @@
-use revproxy::Config;
+use revproxy::config::Config;
 use tracing::level_filters::LevelFilter;
 use tracing_subscriber::prelude::*;
 
@@ -66,7 +66,8 @@ fn setup_logging(cfg: LogConfig) -> anyhow::Result<()> {
 async fn main() {
     setup_logging(LogConfig::new()).unwrap();
 
-    let config = Config::new();
+    let Config { socks, http } = Config::new();
 
-    revproxy::start_socks_server(config).await.unwrap();
+    tokio::task::spawn(async move { revproxy::start_socks_server(socks).await.unwrap() });
+    revproxy::start_http_server(http).await.unwrap();
 }

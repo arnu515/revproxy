@@ -7,8 +7,17 @@ pub enum Auth {
 }
 
 pub struct Config {
-    socks5: SocksConfig,
-    http: HttpConfig,
+    pub socks: SocksConfig,
+    pub http: HttpConfig,
+}
+
+impl Config {
+    pub fn new() -> Self {
+        Self {
+            socks: SocksConfig::new(),
+            http: HttpConfig::new(),
+        }
+    }
 }
 
 pub struct SocksConfig {

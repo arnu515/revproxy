@@ -6,6 +6,7 @@ edition = "2024"
 [dependencies]
 anyhow = "1.0.98"
 async-trait = "0.1.88"
+axum = { version = "0.8.3", default-features = false, features = ["http1", "matched-path", "tokio", "tower-log", "tracing", "query", "http2", "macros", "original-uri"] }
 chrono = "0.4.40"
 fast-socks5 = "0.10.0"
 tokio = { version = "1.44.2", features = ["io-util", "net", "time", "macros", "rt-multi-thread"] }

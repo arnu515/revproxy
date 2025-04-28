@@ -1,13 +1,14 @@
 mod auth;
 pub mod config;
+pub mod http;
 
 use std::sync::Arc;
 
-pub use config::Config;
+use config::{HttpConfig, SocksConfig};
 use fast_socks5::server::{Config as Socks5Config, DenyAuthentication, Socks5Socket};
 use tokio::{net::TcpListener, task};
 
-pub async fn start_socks_server(cfg: Config) -> anyhow::Result<()> {
+pub async fn start_socks_server(cfg: SocksConfig) -> anyhow::Result<()> {
     if cfg.enable_udp && cfg.pub_addr.is_none() {
         panic!("If UDP is enabled, then PUB_ADDR must be set.")
     }
@@ -24,7 +25,7 @@ pub async fn start_socks_server(cfg: Config) -> anyhow::Result<()> {
 
     let listener = TcpListener::bind(&cfg.addr).await?;
 
-    tracing::info!("Listening to connections at {}", cfg.addr);
+    tracing::info!("Started SOCKS server at {}", cfg.addr);
 
     loop {
         match listener.accept().await {
@@ -46,4 +47,11 @@ pub async fn start_socks_server(cfg: Config) -> anyhow::Result<()> {
             Err(e) => tracing::error!("Could not handle tcp connection: {e:?}"),
         }
     }
+}
+
+pub async fn start_http_server(cfg: HttpConfig) -> anyhow::Result<()> {
+    let listener = TcpListener::bind(&cfg.addr).await?;
+    tracing::info!("Started HTTP server at {}", listener.local_addr()?);
+    crate::http::run_app(listener).await;
+    Ok(())
 }
