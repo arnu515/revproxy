@@ -111,7 +111,8 @@ impl HttpConfig {
 }
 
 pub struct HttpsConfig {
-    pub addr: String,
+    pub host: String,
+    pub port: u16,
     pub cert_path: String,
     pub key_path: String,
 }
@@ -128,7 +129,8 @@ impl HttpsConfig {
             .expect("CERT_KEY must be set if HTTPS is enabled");
 
         Self {
-            addr: format!("{host}:{port}"),
+            host,
+            port,
             cert_path,
             key_path,
         }
