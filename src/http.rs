@@ -52,10 +52,7 @@ pub async fn start(cfg: HttpConfig) {
 
 #[handler]
 async fn index(res: &mut Response) {
-    res.render(Text::Html(
-        html! {
-            h1 { "Hello, world!" }
-        }
-        .into_string(),
-    ))
+    res.render(html! {
+        h1 { "Hello, world!" }
+    })
 }
