@@ -17,7 +17,7 @@ impl LogConfig {
         Self {
             stderr: true,
             pretty: true,
-            file: false,
+            file: !cfg!(debug_assertions),
             file_filter: LevelFilter::WARN,
         }
     }
