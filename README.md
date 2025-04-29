@@ -10,6 +10,12 @@ It is powered by [`fast-socks5`](https://lib.rs/fast-socks5) and [`axum`](https:
 - A HTTP proxy (coming soon) with a web frontend.
 - Supports authentication via LDAP.
 
+### In the works
+
+- URL whitelisting/blacklisting support
+- HTTP(S) proxy
+- Web client
+
 ## Configuration
 
 The service is configured using environment variables.
