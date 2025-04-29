@@ -50,8 +50,6 @@ pub async fn start_socks_server(cfg: SocksConfig) -> anyhow::Result<()> {
 }
 
 pub async fn start_http_server(cfg: HttpConfig) -> anyhow::Result<()> {
-    let listener = TcpListener::bind(&cfg.addr).await?;
-    tracing::info!("Started HTTP server at {}", listener.local_addr()?);
-    crate::http::run_app(listener).await;
+    crate::http::start(cfg).await;
     Ok(())
 }
