@@ -8,8 +8,6 @@ It is powered by [`fast-socks5`](https://lib.rs/fast-socks5) and [`axum`](https:
 
 - A SOCKS5 proxy.
 - A HTTP proxy (coming soon) with a web frontend.
-  - Supports HTTP/1 and HTTP/2.
-  - HTTP/3 is unfortunately not supported, at least until hyper + axum supports it.
 - Supports authentication via LDAP.
 
 ## Configuration
@@ -38,6 +36,9 @@ The service is configured using environment variables.
 Notes:
 
 - If HTTPS is enabled, the CERT and CERT_KEY paths must be set.
+  - The HTTP bind will redirect requests to the HTTPS server.
+- If HTTPS is disabled, HTTP/3 will also be disabled.
+- For HTTP/3, the HTTPS_PORT should also be opened via UDP
 
 ## Authentication
 
